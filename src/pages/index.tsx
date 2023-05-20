@@ -56,7 +56,23 @@ const Home: React.FC = () => {
     setFundoPreto(!fundoPreto);
 
     if (socket) {
-      socket.emit('buttonClicked', { fundoPreto: !fundoPreto });
+      const newData = {
+        correnteMotor: dadosTelemetricos.correnteMotor,
+        correnteBaterias: dadosTelemetricos.correnteBaterias,
+        temperatura: dadosTelemetricos.temperatura,
+        umidade: dadosTelemetricos.umidade,
+        tensaoAlimentacaoPCB: dadosTelemetricos.tensaoAlimentacaoPCB,
+        estadoStringSolar1: dadosTelemetricos.estadoStringSolar1,
+        estadoStringSolar2: dadosTelemetricos.estadoStringSolar2,
+        tensaoSaidaMPPT: dadosTelemetricos.tensaoSaidaMPPT,
+        correnteMPPT: dadosTelemetricos.correnteMPPT,
+        velocidadeBarco: dadosTelemetricos.velocidadeBarco,
+        latitude: dadosTelemetricos.latitude,
+        longitude: dadosTelemetricos.longitude,
+        updateAt: dadosTelemetricos.updateAt,
+      };
+
+      socket.emit('Info', newData);
     }
   };
 
