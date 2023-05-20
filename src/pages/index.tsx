@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 import 'typeface-roboto';
 import 'typeface-montserrat';
+
+const socketTest = socketIOClient("https://telemetria-trainee-2023.onrender.com");
 
 interface DadosTelemetricos {
   correnteMotor: number;
@@ -39,16 +42,16 @@ const Home: React.FC = () => {
   });
 
   useEffect(() => {
-    const newSocket = io('https://telemetria-trainee-2023.onrender.com/info');
-
-    newSocket.on('Info', (novosDados: DadosTelemetricos) => {
+    
+    socketTest.on('info', (novosDados: DadosTelemetricos) => {
+      console.log(1);
       setDadosTelemetricos(novosDados);
     });
 
-    setSocket(newSocket);
+    setSocket(socketTest);
 
     return () => {
-      newSocket.disconnect();
+      socketTest.disconnect();
     };
   }, []);
 
@@ -72,7 +75,7 @@ const Home: React.FC = () => {
         updateAt: dadosTelemetricos.updateAt,
       };
 
-      socket.emit('Info', newData);
+      socket.emit('info', newData);
     }
   };
 
