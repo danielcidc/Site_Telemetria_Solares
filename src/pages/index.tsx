@@ -4,6 +4,7 @@ import socketIOClient from 'socket.io-client';
 import 'typeface-roboto';
 import 'typeface-montserrat';
 
+
 const socketTest = socketIOClient("https://telemetria-trainee-2023.onrender.com");
 
 interface DadosTelemetricos {
@@ -12,8 +13,8 @@ interface DadosTelemetricos {
   temperatura: number;
   umidade: number;
   tensaoAlimentacaoPCB: number;
-  estadoStringSolar1: number;
-  estadoStringSolar2: number;
+  estadoStringSolar1: string;
+  estadoStringSolar2: string;
   tensaoSaidaMPPT: number;
   correnteMPPT: number;
   velocidadeBarco: number;
@@ -31,8 +32,8 @@ const Home: React.FC = () => {
     temperatura: 0,
     umidade: 0,
     tensaoAlimentacaoPCB: 0,
-    estadoStringSolar1: 0,
-    estadoStringSolar2: 0,
+    estadoStringSolar1: "0",
+    estadoStringSolar2: "0",
     tensaoSaidaMPPT: 0,
     correnteMPPT: 0,
     velocidadeBarco: 0,
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     
     socketTest.on('info', (novosDados: DadosTelemetricos) => {
-      console.log(1);
+      console.log(novosDados); // Verifica os valores recebidos
       setDadosTelemetricos(novosDados);
     });
 
@@ -105,7 +106,7 @@ const Home: React.FC = () => {
           alt="Imagem de Fundo"
           className="absolute inset-0 w-full h-full object-cover"
         />
-
+        
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-white text-2xl font-bold absolute inset-0 flex items-center justify-center">
             Corrente do Motor: {dadosTelemetricos.correnteMotor} A<br />
@@ -113,8 +114,8 @@ const Home: React.FC = () => {
             Temperatura: {dadosTelemetricos.temperatura} °C<br />
             Umidade: {dadosTelemetricos.umidade}%<br />
             Tensão de Alimentação do PCB: {dadosTelemetricos.tensaoAlimentacaoPCB} V<br />
-            Estado da String Solar 1: {dadosTelemetricos.estadoStringSolar1}<br />
-            Estado da String Solar 2: {dadosTelemetricos.estadoStringSolar2}<br />
+            String Solar 1: {dadosTelemetricos.estadoStringSolar1 !== "0" ? 'ON' : 'OFF'}<br />
+            String Solar 2: {dadosTelemetricos.estadoStringSolar2 !== "0" ? 'ON' : 'OFF'}<br />
             Tensão de Saída do MPPT: {dadosTelemetricos.tensaoSaidaMPPT} V<br />
             Corrente do MPPT: {dadosTelemetricos.correnteMPPT} A<br />
             Velocidade do Barco: {dadosTelemetricos.velocidadeBarco} km/h<br />
@@ -122,11 +123,13 @@ const Home: React.FC = () => {
             Longitude: {dadosTelemetricos.longitude}<br />
             Última Atualização: {dadosTelemetricos.updateAt}
           </div>
+          
           <img
             src="https://img.freepik.com/vetores-premium/ilustracao-de-quadro-verde_9845-457.jpg"
             alt="Quadro de exibição dos dados"
             className="w-4/5 h-4/5"
           />
+          
         </div>
 
         <div style={{ position: 'absolute', top: '-124px', left: '0' }}>
