@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
-import 'typeface-roboto';
-import 'typeface-montserrat';
 
+// Fontes adicionais
+import 'typeface-roboto'; 
+import 'typeface-montserrat';
 
 const socketTest = socketIOClient("https://telemetria-trainee-2023.onrender.com");
 
