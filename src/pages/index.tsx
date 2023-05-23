@@ -1,9 +1,8 @@
-// Importando as funções / bibliotecas necessárias
-import React, { useState, useEffect } from 'react';
+// Importando as funções / bibliotecas necessárias e fontes adicionais
+import React, { useState, useEffect, useRef} from 'react';
 import { io, Socket } from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
-
-// Fontes adicionais
+import { Chart, ChartItem, registerables } from 'chart.js';
 import 'typeface-roboto'; 
 import 'typeface-montserrat';
 
@@ -29,8 +28,12 @@ interface DadosTelemetricos {
 
 // A constante Home tem tipagem React.FC para evitar erros de compilação 
 const Home: React.FC = () => {
+  const correnteMChartRef = useRef<Chart | null>(null);
+  const correnteBChartRef = useRef<Chart | null>(null);
   const [fundoPreto, setFundoPreto] = useState(false); // Constante referente ao fundo do 'modo escuro'
   const [socket, setSocket] = useState<Socket | null>(null); // Constante referente ao servidor, cuja conexão é estabelecida via SocketIO
+  const [correnteMData, setCorrenteMData] = useState<number[]>([]);
+  const [correnteBData, setCorrenteBData] = useState<number[]>([]);
   const [dadosTelemetricos, setDadosTelemetricos] = useState<DadosTelemetricos>({ 
     correnteMotor: 0,
     correnteBaterias: 0,
@@ -51,6 +54,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     
     socketTest.on('info', (novosDados: DadosTelemetricos) => { // Recepção dos dados do servidor
+      setCorrenteMData(prevData => [...prevData, novosDados.correnteMotor]);
+      setCorrenteBData(prevData => [...prevData, novosDados.correnteBaterias]);
       console.log(novosDados); // Verifica os valores recebidos
       setDadosTelemetricos(novosDados); // Atualizando os dados em tempo real
     });
@@ -60,6 +65,7 @@ const Home: React.FC = () => {
     return () => {
       socketTest.disconnect();
     };
+    
   }, []);
 
   const handleButtonClick = () => { // constante atrelada ao funcionamento do botão do modo escuro/claro 
@@ -154,6 +160,7 @@ const Home: React.FC = () => {
         >
           {fundoPreto ? 'OFF' : 'ON'}
         </button>
+
       </div>
     </div>
   );
