@@ -27,17 +27,17 @@ interface DadosTelemetricos {
   updateAt: string;
 }
 
-// A constante Home 
+// A constante Home tem tipagem React.FC para evitar erros de compilação 
 const Home: React.FC = () => {
-  const [fundoPreto, setFundoPreto] = useState(false);
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [dadosTelemetricos, setDadosTelemetricos] = useState<DadosTelemetricos>({
+  const [fundoPreto, setFundoPreto] = useState(false); // Constante referente ao fundo do 'modo escuro'
+  const [socket, setSocket] = useState<Socket | null>(null); // Constante referente ao servidor, cuja conexão é estabelecida via SocketIO
+  const [dadosTelemetricos, setDadosTelemetricos] = useState<DadosTelemetricos>({ 
     correnteMotor: 0,
     correnteBaterias: 0,
     temperatura: 0,
     umidade: 0,
     tensaoAlimentacaoPCB: 0,
-    estadoStringSolar1: "0",       // Valor padrão dos dados telemétricos (irão atualizar)
+    estadoStringSolar1: "0",       // Valor padrão dos dados telemétricos (irão atualizar) armazenados em uma constante
     estadoStringSolar2: "0",
     tensaoSaidaMPPT: 0,
     correnteMPPT: 0,
@@ -55,17 +55,17 @@ const Home: React.FC = () => {
       setDadosTelemetricos(novosDados); // Atualizando os dados em tempo real
     });
 
-    setSocket(socketTest);
+    setSocket(socketTest); // Implementa o socketTest 
 
     return () => {
       socketTest.disconnect();
     };
   }, []);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = () => { // constante atrelada ao funcionamento do botão do modo escuro/claro 
     setFundoPreto(!fundoPreto);
 
-    if (socket) {
+    if (socket) { // Se a conexão com o servidor estiver de pé, os dados (armazenados em newData) irão atualizar. 
       const newData = {
         correnteMotor: dadosTelemetricos.correnteMotor,
         correnteBaterias: dadosTelemetricos.correnteBaterias,
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
     }
   };
   
-  // Todos os componentes aparentes/retornados:
+  // Todos os componentes aparentes/retornados 
   return ( 
     <div className="bg-blue-900 flex flex-col items-center">
       <h1
