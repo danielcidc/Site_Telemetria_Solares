@@ -1,4 +1,4 @@
-// Importando as bibliotecas necessárias
+// Importando as funções / bibliotecas necessárias
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
