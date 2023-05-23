@@ -1,3 +1,4 @@
+// Importando as bibliotecas necessárias
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import socketIOClient from 'socket.io-client';
@@ -6,8 +7,10 @@ import socketIOClient from 'socket.io-client';
 import 'typeface-roboto'; 
 import 'typeface-montserrat';
 
-const socketTest = socketIOClient("https://telemetria-trainee-2023.onrender.com");
+// A constante socketTest estabelece a conexão com o servidor
+const socketTest = socketIOClient("https://telemetria-trainee-2023.onrender.com"); 
 
+// Criamos a interface dos dados telemétricos. Nela, o tipo de cada dado é especificado
 interface DadosTelemetricos {
   correnteMotor: number;
   correnteBaterias: number;
@@ -24,6 +27,7 @@ interface DadosTelemetricos {
   updateAt: string;
 }
 
+// A constante Home 
 const Home: React.FC = () => {
   const [fundoPreto, setFundoPreto] = useState(false);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -33,7 +37,7 @@ const Home: React.FC = () => {
     temperatura: 0,
     umidade: 0,
     tensaoAlimentacaoPCB: 0,
-    estadoStringSolar1: "0",
+    estadoStringSolar1: "0",       // Valor padrão dos dados telemétricos (irão atualizar)
     estadoStringSolar2: "0",
     tensaoSaidaMPPT: 0,
     correnteMPPT: 0,
@@ -43,11 +47,12 @@ const Home: React.FC = () => {
     updateAt: "00/00/0000 00:00:00"
   });
 
+  // A função useEffect é útil para declarar outras funções imperativas dentro dela
   useEffect(() => {
     
-    socketTest.on('info', (novosDados: DadosTelemetricos) => {
+    socketTest.on('info', (novosDados: DadosTelemetricos) => { // Recepção dos dados do servidor
       console.log(novosDados); // Verifica os valores recebidos
-      setDadosTelemetricos(novosDados);
+      setDadosTelemetricos(novosDados); // Atualizando os dados em tempo real
     });
 
     setSocket(socketTest);
@@ -77,11 +82,12 @@ const Home: React.FC = () => {
         updateAt: dadosTelemetricos.updateAt,
       };
 
-      socket.emit('info', newData);
+      socket.emit('info', newData);  // O servidor emite novos dados em tempo real com '.emit'
     }
   };
-
-  return (
+  
+  // Todos os componentes aparentes/retornados:
+  return ( 
     <div className="bg-blue-900 flex flex-col items-center">
       <h1
         className="text-7xl text-yellow-400 font-roboto mt-3"
@@ -153,4 +159,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Home; // Chamamos a constante Home e encerramos o código
