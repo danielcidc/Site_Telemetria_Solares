@@ -95,7 +95,7 @@ const Home: React.FC = () => {
           textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000',
         }}
       >
-        DADOS TELEMÉTRICOS
+        DADOS TELEMÉTRICOS   
       </h1>
 
       <h2
