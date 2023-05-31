@@ -52,7 +52,6 @@ const Home: React.FC = () => {
 
   // A função useEffect é útil para declarar outras funções imperativas dentro dela
   useEffect(() => {
-    
     socketTest.on('info', (novosDados: DadosTelemetricos) => { // Recepção dos dados do servidor
       setCorrenteMData(prevData => [...prevData, novosDados.correnteMotor]);
       setCorrenteBData(prevData => [...prevData, novosDados.correnteBaterias]);
@@ -94,7 +93,7 @@ const Home: React.FC = () => {
   
   // Todos os componentes aparentes/retornados 
   return ( 
-    <div className="bg-blue-900 flex flex-col items-center">
+    <div className="bg-blue-900 flex flex-col items-center"> 
       <h1
         className="text-7xl text-yellow-400 font-roboto mt-3"
         style={{
